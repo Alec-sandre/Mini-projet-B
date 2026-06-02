@@ -34,8 +34,11 @@ import scipy
 # )
 
 from Fonction.integration_rectangle import (
-    demo_rectangles,
-    convergence_rectangles,
+    solution_analytique, calcul_erreur,
+    rectangles_python,  erreur_rect_python,
+    rectangles_numpy,   erreur_rect_numpy,
+    mesurer_temps_rect,
+    demo_rectangles, convergence_rectangles,
     A, B,
 )
 
@@ -76,9 +79,36 @@ print(f"Intervalle  : [{A}, {B}]")
 print(f"I_exact     = {I_exact:.10f}")
 print()
 
+# ══════════════════════════════════════════════════════════════════════════════
+#  2. MÉTHODE DES RECTANGLES — résultats pour N_BASE segments
+# ══════════════════════════════════════════════════════════════════════════════
+
+demo_rectangles(A, B, P1, P2, P3, P4, N_BASE)
+
+print(f"── Méthode des rectangles  (n = {N_BASE}) ──────────────────────")
+
+I_rect_py   = rectangles_python(A, B, N_BASE, P1, P2, P3, P4)
+err_rect_py = calcul_erreur(I_rect_py, I_exact)
+t_rect_py   = timeit.timeit(
+    lambda: rectangles_python(A, B, N_BASE, P1, P2, P3, P4),
+    number=NB_REPS
+) / NB_REPS
+
+I_rect_np   = rectangles_numpy(A, B, N_BASE, P1, P2, P3, P4)
+err_rect_np = calcul_erreur(I_rect_np, I_exact)
+t_rect_np   = timeit.timeit(
+    lambda: rectangles_numpy(A, B, N_BASE, P1, P2, P3, P4),
+    number=NB_REPS
+) / NB_REPS
+
+print(f"  Python  : I = {I_rect_py:.10f}  |  erreur = {err_rect_py:.2e}"
+      f"  |  temps = {t_rect_py*1e6:.2f} µs")
+print(f"  NumPy   : I = {I_rect_np:.10f}  |  erreur = {err_rect_np:.2e}"
+      f"  |  temps = {t_rect_np*1e6:.2f} µs")
+print()
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  2. MÉTHODE DE SIMPSON — résultats pour N_BASE segments
+#  3. MÉTHODE DE SIMPSON — résultats pour N_BASE segments
 # ══════════════════════════════════════════════════════════════════════════════
 
 print(f"── Méthode de Simpson  (n = {N_BASE}) ──────────────────────")
@@ -117,7 +147,7 @@ print()
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  3. CONVERGENCE EN FONCTION DE n
+#  4. CONVERGENCE EN FONCTION DE n
 # ══════════════════════════════════════════════════════════════════════════════
 
 erreurs_simp_py = [erreur_simpson_python(n, A, B, P1, P2, P3, P4)
@@ -153,7 +183,7 @@ print("Graphique sauvegardé : convergence_simpson.png")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  4. TEMPS D'EXÉCUTION EN FONCTION DE n
+#  5. TEMPS D'EXÉCUTION EN FONCTION DE n
 # ══════════════════════════════════════════════════════════════════════════════
 
 temps_simp_py = mesurer_temps_simpson(simpson_python, N_VALUES,
@@ -187,7 +217,7 @@ print("Graphique sauvegardé : temps_simpson.png")
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  5. ILLUSTRATION DE LA MÉTHODE (optionnel — visualisation pédagogique)
+#  6. ILLUSTRATION DE LA MÉTHODE (optionnel — visualisation pédagogique)
 # ══════════════════════════════════════════════════════════════════════════════
 
 def tracer_simpson(a, b, n, p1, p2, p3, p4, ax, titre=""):
