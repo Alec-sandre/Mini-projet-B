@@ -100,7 +100,7 @@ demo_rectangles(A, B, P1, P2, P3, P4, N_BASE)
 print()
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  3. MÉTHODE DES RECTANGLES — résultats pour N_BASE segments
+#  3. MÉTHODE DES Trapeze — résultats pour N_BASE segments
 # ══════════════════════════════════════════════════════════════════════════════
 
 demo_trapeze(A, B, N_BASE, P1, P2, P3, P4, NB_REPS)

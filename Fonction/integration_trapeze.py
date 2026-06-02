@@ -200,12 +200,7 @@ def demo_trapeze(a, b, n, p1, p2, p3, p4,nb_repetitions):
     i_python = trapeze_python(a, b, n, p1, p2, p3, p4)
     i_numpy  = trapeze_numpy(a, b, n, p1, p2, p3, p4)
 
-    print("=" * 55)
-    print("  Méthode des trapèzes")
-    print("=" * 55)
-    print(f"  Paramètres : p1={p1}, p2={p2}, p3={p3}, p4={p4}")
-    print(f"  Intervalle : [{a}, {b}]   |   n = {n} segments")
-    print("-" * 55)
+    print(f"── Méthode des trapeze (n = {n}) ──────────────────────")
     print(f"  I exact      = {i_exact:.10f}")
     print(f"  I Python     = {i_python:.10f}   erreur = {abs(i_python - i_exact):.2e}")
     print(f"  I NumPy      = {i_numpy:.10f}   erreur = {abs(i_numpy  - i_exact):.2e}")
@@ -217,7 +212,7 @@ def demo_trapeze(a, b, n, p1, p2, p3, p4,nb_repetitions):
     temps_numpy = mesurer_temps_trapeze(trapeze_numpy,a, b, n, p1, p2, p3, p4, nb_repetitions=500)
     print(f"  Temps NumPy  (n=10 000) : {temps_numpy*1000:.4f} ms")
     print(f"  Accélération NumPy      : x{temps_python/temps_numpy:.1f}")
-    print("=" * 55)
+
 
 
 p1 = 1.0
