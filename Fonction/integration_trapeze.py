@@ -93,7 +93,7 @@ def trapeze_python(a, b, n, p1, p2, p3, p4):
     return somme
 
 
-def erreur_trapeze_python(n, a, b, p1, p2, p3, p4):
+def erreur_trapeze_python(a, b, n, p1, p2, p3, p4):
     """
     Retourne l'erreur absolue de la méthode des trapèzes (Python) pour n segments.
 
@@ -146,7 +146,7 @@ def trapeze_numpy(a, b, n, p1, p2, p3, p4):
     return np.sum(h * (f_g + f_d) / 2)
 
 
-def erreur_trapeze_numpy(n, a, b, p1, p2, p3, p4):
+def erreur_trapeze_numpy(a, b, n, p1, p2, p3, p4):
     """
     Retourne l'erreur absolue de la méthode des trapèzes (NumPy) pour n segments.
 
@@ -168,7 +168,7 @@ def erreur_trapeze_numpy(n, a, b, p1, p2, p3, p4):
 #  Mesure du temps d'exécution
 # ─────────────────────────────────────────────
 
-def mesurer_temps_trapeze(methode, n_values, a, b, p1, p2, p3, p4,
+def mesurer_temps_trapeze(methode, a, b, n_values, p1, p2, p3, p4,
                           nb_repetitions=100):
     """
     Mesure le temps d'exécution moyen (timeit) d'une méthode des trapèzes
@@ -186,11 +186,45 @@ def mesurer_temps_trapeze(methode, n_values, a, b, p1, p2, p3, p4,
     --------
     list[float] : temps moyen en secondes pour chaque n
     """
-    temps = []
-    for n in n_values:
-        t = timeit.timeit(
-            lambda: methode(a, b, n, p1, p2, p3, p4),
-            number=nb_repetitions
-        ) / nb_repetitions
-        temps.append(t)
+    temps = timeit.timeit(
+        lambda: methode(a, b, n_values, p1, p2, p3, p4),
+        number=nb_repetitions
+    ) / nb_repetitions
     return temps
+
+
+def demo_trapeze():
+    """Affiche les résultats de la méthode des rectangles pour n = 10."""
+    p1 = 1.0
+    p2 = 2.0
+    p3 = -3.0
+    p4 = 0.5
+
+    a = -2.0
+    b = 3.0
+
+    n = 10000
+    i_exact  = solution_analytique(a, b, p1, p2, p3, p4)
+    i_python = trapeze_python(a, b, n, p1, p2, p3, p4)
+    i_numpy  = trapeze_numpy(a, b, n, p1, p2, p3, p4)
+
+    print("=" * 55)
+    print("  Méthode des trapèzes")
+    print("=" * 55)
+    print(f"  Paramètres : p1={p1}, p2={p2}, p3={p3}, p4={p4}")
+    print(f"  Intervalle : [{a}, {b}]   |   n = {n} segments")
+    print("-" * 55)
+    print(f"  I exact      = {i_exact:.10f}")
+    print(f"  I Python     = {i_python:.10f}   erreur = {abs(i_python - i_exact):.2e}")
+    print(f"  I NumPy      = {i_numpy:.10f}   erreur = {abs(i_numpy  - i_exact):.2e}")
+    print("-" * 55)
+
+    temps_python = mesurer_temps_trapeze(trapeze_python,a, b, n, p1, p2, p3, p4, nb_repetitions=500)
+    print(temps_python)
+    print(f"  Temps Python (n=10 000) : {temps_python*1000:.4f} ms")
+    temps_numpy = mesurer_temps_trapeze(trapeze_numpy,a, b, n, p1, p2, p3, p4, nb_repetitions=500)
+    print(f"  Temps NumPy  (n=10 000) : {temps_numpy*1000:.4f} ms")
+    print(f"  Accélération NumPy      : x{temps_python/temps_numpy:.1f}")
+    print("=" * 55)
+
+demo_trapeze()
