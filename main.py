@@ -32,6 +32,13 @@ import timeit
 #     mesurer_temps_trap,
 # )
 
+from integration_rectangles import (
+    demo_rectangles,
+    convergence_rectangles,
+    A, B,
+)
+
+
 from integration_simpson import (
     solution_analytique,
     calcul_erreur,
