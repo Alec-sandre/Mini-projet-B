@@ -33,6 +33,12 @@ import scipy
 #     mesurer_temps_trap,
 # )
 
+from Fonction.integration_rectangle import (
+    demo_rectangles,
+    convergence_rectangles,
+    A, B,
+)
+
 from Fonction.integration_simpson import (
     solution_analytique,
     calcul_erreur,
