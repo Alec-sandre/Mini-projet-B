@@ -13,6 +13,7 @@ Usage :
 import numpy as np
 import matplotlib.pyplot as plt
 import timeit
+import scipy
 
 # ── Import des modules d'intégration ──────────────────────────────────────────
 # NOTE : les modules integration_rectangles.py et integration_trapezes.py
@@ -32,14 +33,13 @@ import timeit
 #     mesurer_temps_trap,
 # )
 
-from integration_rectangles import (
+from Fonction.integration_rectangle import (
     demo_rectangles,
     convergence_rectangles,
     A, B,
 )
 
-
-from integration_simpson import (
+from Fonction.integration_simpson import (
     solution_analytique,
     calcul_erreur,
     f,
